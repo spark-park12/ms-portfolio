@@ -1,0 +1,90 @@
+/* works.module.css */
+
+.shadowContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  overflow: hidden;
+  background: linear-gradient(135deg, #afc0ff, #f3beff, #ffc3a0); /* Soft gradient background matching home page */
+  position: relative;
+}
+
+.categoryContainer {
+  margin-bottom: 3rem; /* Adjust as needed for desired spacing */
+  text-align: center; /* Center the category title */
+  padding: 1rem; /* Add padding for space around category */
+  background-color: rgba(63, 41, 88, 0.2); /* Slightly transparent white background */
+  border-radius: 10px; /* Rounded corners for category containers */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.categoryTitle {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: lighter; /* Lighter weight for category titles */
+  color: #ffffff; /* Dark color for text */
+  font-size: 1rem; /* Size for category titles */
+  margin-bottom: 2rem; /* Space below title */
+}
+
+.pageTitle {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+
+.collage {
+  display: flex; /* Use flexbox for centering */
+  flex-wrap: wrap; /* Allow wrapping of items */
+  justify-content: center; /* Center items horizontally */
+  gap: 20px; /* Increased space between images for better aesthetics */
+  margin-bottom: 4rem; /* Space below the grid */
+}
+
+.collageImage {
+  width: 200px; /* Fixed width to show images consistently */
+  height: 200px; /* Fixed height to maintain aspect ratio */
+  object-fit: cover; /* Ensure the image covers the space */
+  border-radius: 10px; /* Slightly larger radius for a softer look */
+  cursor: pointer; /* Change cursor to pointer for click effect */
+  transition: transform 0.3s, box-shadow 0.3s; /* Add a hover effect */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.collageImage:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8); /* Dark background */
+  display: flex;
+  justify-content: center; /* Center modal content */
+  align-items: center; /* Center modal content */
+  z-index: 1000; /* Ensure modal is above other content */
+}
+
+.modalImage {
+  max-width: 90%; /* Ensure the image is responsive */
+  max-height: 90%;
+  object-fit: contain; /* Maintain aspect ratio */
+  border-radius: 10px; /* Rounded corners for modal images */
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 600px) {
+  .categoryTitle {
+    font-size: 1.5rem; /* Adjust for smaller screens */
+  }
+  .collageImage {
+    width: 150px; /* Reduce size for smaller screens */
+    height: 150px; /* Maintain aspect ratio */
+  }
+}
