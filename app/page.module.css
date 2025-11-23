@@ -4,10 +4,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
+  flex-direction: column;
+
+  min-height: 100svh;
   overflow: hidden;
-  background: linear-gradient(135deg, #ffc3a0, #f3beff, #afc0ff); /* Soft gradient background */
+
+  /* 🌌 보라빛 그라디언트 + 애니메이션 */
+  background: linear-gradient(135deg, #0D1117, #1B263B, #415A77);
   position: relative;
+  background-size: 300% 300%;
+  animation: gradientFlow 10s ease-in-out infinite;
+
+  background-blend-mode: overlay;
+  
+
+ 
+  z-index: -2;
+
+  padding-bottom: 10rem;
+}
+
+.shadowContainer::before {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  z-index: -2;
+  pointer-events: none;
+
+  /* ① 비네트(가장자리 어둡게) + ② 중앙 글로우(진한 살구/로즈) 레이어 */
+  background:
+    radial-gradient(ellipse at center,
+      rgba(0, 0, 0, 0) 62%,
+      rgba(0, 0, 0, 0.12) 100% ),
+    radial-gradient(circle at 50% 58%,
+      rgba(160, 45, 35, 0.40) 0%,
+      rgba(190, 60, 45, 0.28) 22%,
+      rgba(255, 200, 180, 0.12) 58%,
+      transparent 75%);
+
+  filter: blur(90px);                 /* 부드럽게 확산 */
+  animation: glowDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes glowDrift {
+  0%   { transform: translateY(0)    scale(1);    opacity: .9; }
+  100% { transform: translateY(-1.5%) scale(1.04); opacity: 1; }
+}
+
+
+
+
+.containerMain{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Change to column to stack content vertically */
+  min-height: 100svh; /* Full viewport height */
+  padding-block: calc(var(--nav-height, 64px) + 6vh) 10vh;
+  padding-inline: 2rem;
+  display: flex;
+  overflow: hidden;
 }
 
 .container {
@@ -16,12 +72,13 @@
   align-items: center;
   text-align: center;
   justify-content: center;
-  width: 80%; /* Increase width for better readability */
+  width: 60%; /* Increase width for better readability */
   height: 50%; /* Max width to limit stretching on large screens */
   padding: 2.5rem; /* Add padding for space around content */
   border-radius: 10px; /* Rounded corners for the container */
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); /* Slightly stronger shadow for depth */
+  box-shadow: 0 5px 20px rgba(148, 148, 148, 0.25); /* Slightly stronger shadow for depth */
   position: relative; /* Required for pseudo-elements */
+  
 }
 
 .container::before {
@@ -31,10 +88,51 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(63, 41, 88, 0.2); /* Slightly transparent white background */
-  border-radius: 10px; /* Match the container's border radius */
-  z-index: 0; /* Place behind the content */
+
+  /* 🔥 기존보다 훨씬 어두운 톤 */
+  background: rgba(246, 242, 255, 0.264); /* 깊은 보라+투명도 조합 */
+
+  border-radius: 10px;
+  z-index: -1; /* ✅ 텍스트 뒤로 완전히 이동 */
 }
+
+
+
+.heroImage {
+  display: block;
+  margin: 2rem auto 0;       /* 위 여백 + 중앙 정렬 */
+  width: 320px;              /* 가로 크기 */
+  height: 390px;             /* 세로 크기 */
+  object-fit: cover;         /* 비율 유지 */
+  margin-bottom: 2rem;      /* 아래 여백 */
+  
+  /* 위쪽만 둥글게 — 반원 느낌 */
+  border-top-left-radius: 160px;
+  border-top-right-radius: 160px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.heroImage:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* 제목 페이드-업 애니메이션 */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* 기존 .title에 애니메이션만 추가(나머지 속성은 그대로 유지) */
+.title {
+  /* ...기존 스타일 유지... */
+  animation: fadeUp .7s ease-out both;
+}
+
 
 .title {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -42,19 +140,66 @@
   font-size: 4rem; /* Larger size for emphasis */
   margin-bottom: 0.5rem; /* Space below title */
   position: relative; /* Required to keep text above the overlay */
+  text-align: center; /* Center align the title */
   z-index: 1; /* Bring title above the overlay */
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for text */
 }
 
+.pageTitle {
+  color: #fff; /* White color for the title */
+  font-size: 2rem; /* Size for title */
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 2rem; /* Space below title */
+  text-align: center; /* Center align the title */
+  margin-top: 3rem; /* Space above the title */
+  z-index: 1; /* Bring text above the overlay */
+}
+
+.columns {
+  display: grid; /* Use grid layout for columns */
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+  gap: 3rem; /* Increased space between columns */
+  width: 100%; /* Full width of the container */
+}
+
+.column {
+  text-align: left; /* Align text to the left for better readability */
+}
+
 .subtitle {
-  color: #ffffff; /* White color for subtitle */
-  font-size: 1.2rem; /* Smaller size for subtitle */
+  color: rgba(255, 255, 255, 0.92); /* pure white보다 살짝 톤다운 */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); /* 글씨 주변에 부드러운 어두운 그림자 */
+  z-index: 2;
+  font-size: 1.5rem; /* Smaller size for subtitle */
   font-family: 'Arial', sans-serif; /* Clean font family */
   text-align: center; /* Center subtitle text */
   position: relative; /* Keep above the overlay */
-  z-index: 1; /* Bring subtitle above the overlay */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for subtitle */
 }
+
+.subTitle {
+  color: rgba(255, 255, 255, 0.92); /* pure white보다 살짝 톤다운 */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); /* 글씨 주변에 부드러운 어두운 그림자 */
+  z-index: 2;
+  font-size: 1.2rem; /* Size for subtitles */
+  margin-top: 1.5rem; /* Space above subtitles */
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.text {
+  font-size: 1.2rem; /* General text size */
+  color: rgba(255, 255, 255, 0.92); /* pure white보다 살짝 톤다운 */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); /* 글씨 주변에 부드러운 어두운 그림자 */
+  z-index: 2;
+  margin-bottom: 4rem; /* Space below each paragraph */
+}
+
+.text, .subTitle, .pageTitle, .title {
+  color: rgba(255, 255, 255, 0.92); /* pure white보다 살짝 톤다운 */
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25); /* 글씨 주변에 부드러운 어두운 그림자 */
+  z-index: 2;
+}
+
+
 
 /* Media Queries for Responsiveness */
 @media (max-width: 600px) {
@@ -65,5 +210,130 @@
   .subtitle {
     font-size: 1rem; /* Reduce subtitle size on small screens */
   }
+
+  .pageTitle {
+    font-size: 2.5rem; /* Adjust title size for small screens */
+  }
+  .text {
+    font-size: 0.9rem; /* Adjust text size for small screens */
+  }
+  .columns {
+    grid-template-columns: 1fr; /* Stack columns on small screens */
+  }
 }
 
+@keyframes gradientFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* 사용자가 모션 축소 선호시 정지 */
+@media (prefers-reduced-motion: reduce) {
+  .shadowContainer { animation: none; }
+}
+
+@keyframes sparkle {
+  0%   { opacity: 0.10; transform: scale(1); }
+  100% { opacity: 0.28; transform: scale(1.03); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shadowContainer::after { animation: none; }
+}
+
+/* ===== 🫧 Animated Colorful Blurred Bubbles ===== */
+.bubbles{
+  position:absolute;
+  inset:0;
+  z-index:0;                /* 컨텐츠 뒤 */
+  pointer-events:none;
+  overflow:hidden;
+  mix-blend-mode:screen;
+}
+
+/* 공통 모양: 컬러+블러+유기적 타원 */
+.bubbles span{
+  --blur: 26px;             /* 퍼짐 강도 */
+  --sx: 1; --sy: 1;         /* 가로/세로 비율 */
+  --c1: 255,255,255;        /* 하이라이트 */
+  --c2: 220,200,255;        /* 링1 */
+  --c3: 255,210,230;        /* 링2 */
+
+  position:absolute;
+  display:block;
+  width:16rem; height:16rem;
+  border-radius:46% 54% / 52% 48%;
+  opacity:.58;
+  filter: blur(var(--blur)) saturate(130%);
+  transform: scale(var(--sx), var(--sy));
+  animation: bubbleMove 26s ease-in-out infinite;
+  background:
+    radial-gradient(circle at 35% 30%,
+      rgba(var(--c1), .92) 0%,
+      rgba(var(--c1), .50) 22%,
+      rgba(var(--c2), .32) 40%,
+      rgba(var(--c3), .22) 58%,
+      rgba(var(--c3), .12) 70%,
+      transparent 86%);
+}
+
+/* 외곽 부드러운 글로우 */
+.bubbles span::after{
+  content:"";
+  position:absolute; inset:-24%;
+  border-radius:inherit;
+  background: radial-gradient(circle, rgba(255,255,255,.35), transparent 70%);
+  filter: blur(calc(var(--blur) * 1.25));
+  opacity:.42;
+}
+
+/* 위치/크기/색/속도 다르게 */
+.bubbles span:nth-child(1){
+  top:70%; left:12%; width:18rem; height:18rem;
+  --blur: 30px; --sx:1.06; --sy:.95;
+  --c2: 190,160,255; --c3: 240,210,255; animation-duration:28s;
+}
+.bubbles span:nth-child(2){
+  top:22%; left:28%; width:13rem; height:13rem;
+  --blur: 24px; --sx:.92; --sy:1.06;
+  --c2: 255,190,220; --c3: 255,220,200; animation-duration:24s; animation-delay:-6s;
+}
+.bubbles span:nth-child(3){
+  top:38%; left:66%; width:19rem; height:19rem;
+  --blur: 28px; --sx:1.08; --sy:.97;
+  --c2: 180,220,255; --c3: 200,170,255; animation-duration:30s; animation-delay:-9s;
+}
+.bubbles span:nth-child(4){
+  top:78%; left:82%; width:12rem; height:12rem;
+  --blur: 23px; --sx:.95; --sy:1.04;
+  --c2: 235,235,255; --c3: 255,225,245; animation-duration:23s; animation-delay:-12s;
+}
+.bubbles span:nth-child(5){
+  top:88%; left:48%; width:17rem; height:17rem;
+  --blur: 30px; --sx:1.02; --sy:.98;
+  --c2: 255,200,220; --c3: 255,190,180; animation-duration:32s; animation-delay:-14s;
+}
+.bubbles span:nth-child(6){
+  top:10%; left:8%; width:12rem; height:12rem;
+  --blur: 24px; --sx:1.04; --sy:.96;
+  --c2: 210,180,255; --c3: 230,210,255; animation-duration:25s; animation-delay:-4s;
+}
+.bubbles span:nth-child(7){
+  top:16%; left:78%; width:15rem; height:15rem;
+  --blur: 27px; --sx:.97; --sy:1.06;
+  --c2: 190,230,255; --c3: 210,240,255; animation-duration:27s; animation-delay:-16s;
+}
+
+/* 부드럽게 위로 + 좌우 흔들 + 호흡하듯 살짝 퍼짐 */
+@keyframes bubbleMove{
+  0%   { transform: translate3d(0,  2%, 0)  scale(var(--sx), var(--sy)); filter: blur(var(--blur)); }
+  25%  { transform: translate3d(16px,-18px,0) scale(calc(var(--sx)*1.02), calc(var(--sy)*1.02)); filter: blur(calc(var(--blur)*1.08)); }
+  50%  { transform: translate3d(-20px,-40px,0) scale(calc(var(--sx)*1.05), calc(var(--sy)*1.05)); filter: blur(calc(var(--blur)*1.15)); }
+  75%  { transform: translate3d(12px,-60px,0) scale(calc(var(--sx)*1.03), calc(var(--sy)*1.03)); filter: blur(calc(var(--blur)*1.08)); }
+  100% { transform: translate3d(0, -80px,0)  scale(var(--sx), var(--sy));   filter: blur(var(--blur)); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .bubbles span{ animation:none; }
+}

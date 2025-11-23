@@ -1,0 +1,289 @@
+/* ==== Home이랑 같은 배경 & 그라데이션 ==== */
+.shadowContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+    min-height: 100svh;
+    overflow: hidden;
+  
+    /* 🌌 보라빛 그라디언트 + 애니메이션 (Home과 동일) */
+    background: linear-gradient(135deg, #0D1117, #1B263B, #415A77);
+    position: relative;
+    background-size: 300% 300%;
+    animation: gradientFlow 10s ease-in-out infinite;
+    background-blend-mode: overlay;
+  
+    z-index: -2;
+    padding-bottom: 10rem;
+  }
+  
+  .shadowContainer::before {
+    content: "";
+    position: absolute;
+    inset: -8%;
+    z-index: -2;
+    pointer-events: none;
+  
+    background:
+      radial-gradient(ellipse at center,
+        rgba(0, 0, 0, 0) 62%,
+        rgba(0, 0, 0, 0.12) 100% ),
+      radial-gradient(circle at 50% 58%,
+        rgba(160, 45, 35, 0.40) 0%,
+        rgba(190, 60, 45, 0.28) 22%,
+        rgba(255, 200, 180, 0.12) 58%,
+        transparent 75%);
+    filter: blur(90px);
+    animation: glowDrift 16s ease-in-out infinite alternate;
+  }
+  
+  /* 배경 애니메이션 (Home과 동일) */
+  @keyframes gradientFlow {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  @keyframes glowDrift {
+    0%   { transform: translateY(0) scale(1); opacity: .9; }
+    100% { transform: translateY(-1.5%) scale(1.04); opacity: 1; }
+  }
+  
+  /* ==== 뒤에서 흐르는 블러 버블 (Home과 동일) ==== */
+  .bubbles{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+    mix-blend-mode:screen;
+  }
+  
+  .bubbles span{
+    --blur: 26px;
+    --sx: 1; --sy: 1;
+    --c1: 255,255,255;
+    --c2: 220,200,255;
+    --c3: 255,210,230;
+  
+    position:absolute;
+    display:block;
+    width:16rem; height:16rem;
+    border-radius:46% 54% / 52% 48%;
+    opacity:.58;
+    filter: blur(var(--blur)) saturate(130%);
+    transform: scale(var(--sx), var(--sy));
+    animation: bubbleMove 26s ease-in-out infinite;
+    background:
+      radial-gradient(circle at 35% 30%,
+        rgba(var(--c1), .92) 0%,
+        rgba(var(--c1), .50) 22%,
+        rgba(var(--c2), .32) 40%,
+        rgba(var(--c3), .22) 58%,
+        rgba(var(--c3), .12) 70%,
+        transparent 86%);
+  }
+  
+  .bubbles span::after{
+    content:"";
+    position:absolute; inset:-24%;
+    border-radius:inherit;
+    background: radial-gradient(circle, rgba(255,255,255,.35), transparent 70%);
+    filter: blur(calc(var(--blur) * 1.25));
+    opacity:.42;
+  }
+  
+  .bubbles span:nth-child(1){
+    top:70%; left:12%; width:18rem; height:18rem;
+    --blur: 30px; --sx:1.06; --sy:.95;
+    --c2: 190,160,255; --c3: 240,210,255; animation-duration:28s;
+  }
+  .bubbles span:nth-child(2){
+    top:22%; left:28%; width:13rem; height:13rem;
+    --blur: 24px; --sx:.92; --sy:1.06;
+    --c2: 255,190,220; --c3: 255,220,200; animation-duration:24s; animation-delay:-6s;
+  }
+  .bubbles span:nth-child(3){
+    top:38%; left:66%; width:19rem; height:19rem;
+    --blur: 28px; --sx:1.08; --sy:.97;
+    --c2: 180,220,255; --c3: 200,170,255; animation-duration:30s; animation-delay:-9s;
+  }
+  .bubbles span:nth-child(4){
+    top:78%; left:82%; width:12rem; height:12rem;
+    --blur: 23px; --sx:.95; --sy:1.04;
+    --c2: 235,235,255; --c3: 255,225,245; animation-duration:23s; animation-delay:-12s;
+  }
+  .bubbles span:nth-child(5){
+    top:88%; left:48%; width:17rem; height:17rem;
+    --blur: 30px; --sx:1.02; --sy:.98;
+    --c2: 255,200,220; --c3: 255,190,180; animation-duration:32s; animation-delay:-14s;
+  }
+  .bubbles span:nth-child(6){
+    top:10%; left:8%; width:12rem; height:12rem;
+    --blur: 24px; --sx:1.04; --sy:.96;
+    --c2: 210,180,255; --c3: 230,210,255; animation-duration:25s; animation-delay:-4s;
+  }
+  .bubbles span:nth-child(7){
+    top:16%; left:78%; width:15rem; height:15rem;
+    --blur: 27px; --sx:.97; --sy:1.06;
+    --c2: 190,230,255; --c3: 210,240,255; animation-duration:27s; animation-delay:-16s;
+  }
+  
+  @keyframes bubbleMove{
+    0%   { transform: translate3d(0,  2%, 0)  scale(var(--sx), var(--sy)); filter: blur(var(--blur)); }
+    25%  { transform: translate3d(16px,-18px,0) scale(calc(var(--sx)*1.02), calc(var(--sy)*1.02)); filter: blur(calc(var(--blur)*1.08)); }
+    50%  { transform: translate3d(-20px,-40px,0) scale(calc(var(--sx)*1.05), calc(var(--sy)*1.05)); filter: blur(calc(var(--blur)*1.15)); }
+    75%  { transform: translate3d(12px,-60px,0) scale(calc(var(--sx)*1.03), calc(var(--sy)*1.03)); filter: blur(calc(var(--blur)*1.08)); }
+    100% { transform: translate3d(0, -80px,0)  scale(var(--sx), var(--sy));   filter: blur(var(--blur)); }
+  }
+  
+  /* ==== Contact 전용 레이아웃 ==== */
+  
+  .containerMain{
+    display: flex;
+    justify-content: flex-start;              /* 👈 위쪽에서 시작하게 */
+    align-items: center;
+    flex-direction: column;
+    min-height: 100svh;
+    padding-block: calc(var(--nav-height, 64px) + 2vh) 5vh;  /* 👈 위·아래 여백 줄이기 */
+    padding-inline: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  
+  .title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 2rem;
+    margin-bottom: 0.6rem;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    padding-top: 3rem;
+    padding-bottom: 1rem;
+  }
+  
+  .subtitle {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1rem;
+    text-align: center;
+    max-width: 460px;
+    margin: 0 auto 2.2rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* 중앙 Contact 카드 */
+  .contactBox {
+    width: 70%;
+    max-width: 900px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 2rem;
+    margin: 0 auto;
+    padding: 2.4rem 2.2rem;
+  
+    background: rgba(246, 242, 255, 0.14);
+    border-radius: 14px;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  
+  .leftSection,
+  .rightSection {
+    text-align: left;
+  }
+  
+  .sectionTitle {
+    font-size: 1.05rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 0.8rem;
+  }
+  
+  .text {
+    font-size: 0.96rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 1.1rem;
+  }
+  
+  /* 오른쪽 Info 블록들 */
+  .infoBlock {
+    background: rgba(15, 19, 40, 0.92);
+    padding: 1rem 1.1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    margin-bottom: 0.9rem;
+  }
+  
+  .infoTitle {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: rgba(190, 198, 255, 0.9);
+    margin-bottom: 0.4rem;
+  }
+  
+  .infoLink,
+  .socialLink {
+    color: rgba(238, 240, 255, 0.96);
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  
+  .infoLink:hover,
+  .socialLink:hover {
+    text-decoration: underline;
+  }
+  
+  .socialList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  
+  /* chip-style 리스트 */
+  .chipList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .chip {
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(240, 242, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    background: radial-gradient(circle at top left, #ffb8db 0, #111529 55%);
+  }
+  
+  /* 반응형 */
+  @media (max-width: 900px) {
+    .contactBox {
+      width: 90%;
+      grid-template-columns: 1fr;
+      padding: 2rem 1.6rem;
+    }
+  }
+  
+  @media (max-width: 540px) {
+    .contactBox {
+      width: 100%;
+      padding: 1.6rem 1.3rem;
+    }
+  
+    .title {
+      font-size: 2.3rem;
+    }
+  }
+  

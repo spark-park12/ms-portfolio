@@ -1,65 +1,31 @@
+"use client";
+
+import "./globals.css";
+import { useEffect, useState } from "react";
+
 export default function RootLayout({ children }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <html lang="ko">
-      <head>
-        <title>Se Ah Park</title>
-        <link href="https://fonts.googleapis.com/css2?family=Borel&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="en">
       <body>
-        {/* 네비게이션 바 */}
-        <nav
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "1rem",
-          }}
-        >
-          <ul
-            style={{
-              display: "flex",
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-            }}
-          >
-            <li style={{ marginRight: "1rem" }}>
-              <a href="/" style={{ color: "#000", textDecoration: "none" }}>
-                INTRO
-              </a>
-            </li>
-
-            <li style={{ marginRight: "1rem" }}>
-              <a
-                href="/works"
-                style={{ color: "#000", textDecoration: "none" }}
-              >
-                WORKS
-              </a>
-            </li>
-
-            <li style={{ marginRight: "1rem" }}>
-              <a
-                href="/about"
-                style={{ color: "#000", textDecoration: "none" }}
-              >
-                ABOUT
-              </a>
-            </li>
-
-            <li>
-              <a
-                href="/contact"
-                style={{ color: "#000", textDecoration: "none" }}
-              >
-                CONTACT
-              </a>
-            </li>
-            
-          </ul>
+        <nav className="navbar">
+          <a href="/">HOME</a>
+          <a href="/works">WORKS</a>
+          <a href="/contact">CONTACT</a>
         </nav>
+
         {children}
       </body>
+
     </html>
   );
 }
