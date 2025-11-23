@@ -106,7 +106,7 @@ export default function Home() {
             <p className={styles.text}>
               I have experience with Procreate, Adobe Photoshop, Illustrator,
               and InDesign, as well as photography, 3D modeling in Maya, and
-              visual programming in TouchDesigner.
+              visual programming in TouchDesigner. 
               <br /><br />
               I also design and develop websites using JavaScript, HTML,
               and Next.js—integrating aesthetics with functionality to craft
