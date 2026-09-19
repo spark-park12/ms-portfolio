@@ -1,49 +1,187 @@
-/* ===== 기본 설정 ===== */
-body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #000; /* 페이지 배경은 각 페이지에서 그림—여긴 그냥 어두운 단색 */
-}
+/* app/globals.css */
 
-/* 네브바 높이 */
 :root {
-  --nav-height: 64px;
+  --bg: #faf9f6;
+  --surface: #f2efe9;
+  --text: #272522;
+  --muted: #74716d;
+  --border: rgba(48, 43, 37, 0.13);
+  --accent: #6b493a;
+
+  --nav-height: 76px;
+  --container: 1180px;
 }
 
-/* ============ NAVBAR ============ */
-
-/* 기존 reset 위에 넣기 NO! */
-/* reset 아래에 넣어줘야 덮어쓰기 안됨 */
-
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 999;
-
-  display: flex;
-  justify-content: center;
-  gap: 2.4rem;
-
-  padding: 1rem 0;
-
-  background: rgba(0, 0, 0, 0.25);  /* ← 완전 검은색 NO */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.navbar a {
-  color: white;                      /* ← 글씨색 흰색 */
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
 }
 
-.navbar a:hover {
-  opacity: 0.7;
+button {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+::selection {
+  background: rgba(107, 73, 58, 0.2);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.container {
+  width: min(var(--container), calc(100% - 88px));
+  margin-inline: auto;
+}
+
+/* ===== Header ===== */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--nav-height);
+  background: rgba(250, 249, 246, 0.9);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.navbarInner {
+  width: min(var(--container), calc(100% - 88px));
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordmark {
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navLink {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.navLink:hover,
+.navLinkActive {
+  color: var(--text);
+}
+
+/* ===== Footer ===== */
+.siteFooter {
+  border-top: 1px solid var(--border);
+}
+
+.footerInner {
+  width: min(var(--container), calc(100% - 88px));
+  min-height: 86px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.footerInner p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.footerLink {
+  color: var(--muted);
+  font-size: 13px;
+  transition: color 180ms ease;
+}
+
+.footerLink:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 760px) {
+  :root {
+    --nav-height: 67px;
+  }
+
+  .navbarInner,
+  .footerInner,
+  .container {
+    width: calc(100% - 42px);
+  }
+
+  .wordmark {
+    font-size: 13px;
+  }
+
+  .navLinks {
+    gap: 15px;
+  }
+
+  .navLink {
+    font-size: 10px;
+  }
+
+  .footerInner {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .navLinks {
+    gap: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

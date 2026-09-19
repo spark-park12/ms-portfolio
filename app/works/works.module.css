@@ -1,361 +1,598 @@
-/* works.module.css */
+/* app/works/works.module.css */
 
-/* 전체 배경 + 중앙 정렬 */
-.shadowContainer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+.page {
+  --paper: #faf9f6;
+  --text: #25231f;
+  --muted: #77736d;
+  --line: #ddd9d1;
+  --image-background: #e9e6df;
+
+  min-height: 100svh;
   width: 100%;
-  overflow: hidden;
-  background: linear-gradient(135deg, #0d1117, #1b263b, #415a77);
-  position: relative;
+
+  padding:
+    calc(var(--nav-height, 64px) + clamp(70px, 9vw, 130px))
+    clamp(22px, 5vw, 76px)
+    80px;
+
+  background: var(--bg, var(--paper));
+  color: var(--text, #25231f);
 }
 
-.redBlob {
-  position: fixed;
-  top: 20%;
-  right: 10%;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 90, 90, 0.6) 0%,
-    rgba(255, 50, 50, 0.3) 50%,
-    rgba(255, 0, 0, 0) 70%
-  );
-  filter: blur(120px);
-  z-index: 1;
-  pointer-events: none; /* 클릭 방해 안 되게 */
+.intro,
+.featuredSection,
+.archiveSection,
+.contactSection {
+  width: min(100%, 1440px);
+  margin-inline: auto;
 }
 
-.redBlob2 {
-  position: fixed;
-  bottom: 15%;
-  left: 5%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(
-    circle,
-    rgba(255, 120, 160, 0.5) 0%,
-    rgba(255, 80, 120, 0.35) 40%,
-    rgba(255, 0, 70, 0) 70%
-  );
-  filter: blur(140px);
-  z-index: 1;
-  pointer-events: none;
-}
+/* =========================
+   Intro
+========================= */
 
-
-/* 안쪽 콘텐츠 래퍼 */
-.pageContent {
-  width: 100%;
-  max-width: 1200px;
-  padding: 3rem 2rem;
-}
-
-/* 페이지 타이틀 */
-.pageTitle {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: #ffffff;
-  font-size: 2rem;
-  margin-bottom: 2.5rem;
-  text-align: center;
-  padding-top: 2rem;
-}
-
-/* 카테고리 카드 */
-.categoryContainer {
-  margin-bottom: 3rem;
-  text-align: center;
-  padding: 1.25rem 1rem;
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(15, 23, 42, 0.6);
-  position: relative;
-  background: rgba(15, 23, 42, 0.8);
-  border: 1px solid rgba(148, 163, 184, 0.4);
-}
-
-/* 카테고리 내부의 연한 오버레이 */
-.categoryContainer::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 10px;
-  background: radial-gradient(
-    circle at top left,
-    rgba(148, 163, 184, 0.28),
-    transparent 60%
-  );
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* 카테고리 제목 */
-.categoryTitle {
-  position: relative;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-weight: 300;
-  color: #ffffff;
-  font-size: 1rem;
-  margin-bottom: 2rem;
-  z-index: 1;
-}
-
-/* 썸네일 그리드 */
-.collage {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 0.5rem;
-  z-index: 1;
-}
-
-/* 버튼 래퍼 */
-.collageItem {
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-
-/* 썸네일 이미지 */
-.collageImage {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  transition: transform 0.3s, box-shadow 0.3s, opacity 0.2s;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.7);
-}
-
-.collageImage:hover {
-  transform: scale(1.04);
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.9);
-  opacity: 0.95;
-}
-
-/* ========= 오른쪽 디테일 패널 ========= */
-
-/* 오른쪽 패널 뒤 어두운 오버레이 */
-.detailBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  display: flex;
-  justify-content: flex-end;
-  align-items: stretch;
-  z-index: 999;
-  padding: 32px 16px;
-  align-items: flex-start;
-  overflow-y: auto;
-}
-
-/* 슬라이드 패널 본체 */
-.detailPanel {
-  position: relative;
-  width: min(380px, 80vw);
-  height: 100vh;
-  background: rgba(15, 23, 42, 0.96);
-  border-left: 1px solid rgba(148, 163, 184, 0.4);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
-  padding: 1.8rem 1.6rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  color: #e5e7eb;
-  animation: slideInRight 0.25s ease-out;
-  max-height: 90vh;      /* 화면 높이의 90%까지만 쓰기 */
-  overflow-y: auto;      /* 내용이 넘치면 패널 안에서 스크롤 */
-}
-
-.detailImage {
-  width: 100%;
-  max-height: 380px; /* 더 크게 보고 싶으면 400~450px 가능 */
-  object-fit: contain;      /* ← 전체 이미지가 화면에 맞게 축소되며 모두 보임 */
-  border-radius: 10px;
-  margin-bottom: 1rem;
-  background: #0f1b2d;     /* 비어 보일 때 자연스럽게 보이도록 여백 배경 */
-  padding: 8px;            /* 이미지가 너무 딱 붙지 않도록 */
-}
-
-
-
-/* 패널 닫기 버튼 */
-.detailCloseButton {
-  position: absolute;
-  top: 0.9rem;
-  right: 1.1rem;
-  border: none;
-  background: transparent;
-  color: #9ca3af;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
-/* 카테고리 텍스트 */
-.detailCategory {
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
+.eyebrow {
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  line-height: 1;
   text-transform: uppercase;
-  opacity: 0.7;
 }
 
-/* 작품 제목 */
-.detailTitle {
-  font-size: 1.4rem;
+.introGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: clamp(50px, 8vw, 130px);
+  align-items: end;
+  padding-bottom: clamp(80px, 11vw, 160px);
+}
+
+.pageTitle {
+  margin: 0;
+
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  font-size: clamp(78px, 14vw, 200px);
   font-weight: 600;
+  line-height: 0.78;
+  letter-spacing: -0.075em;
 }
 
-/* 연도 / 툴 */
-.detailMeta {
-  font-size: 0.85rem;
-  opacity: 0.8;
-}
-
-/* 설명 텍스트 */
-.detailDescription {
-  margin-top: 0.5rem;
-  font-size: 0.95rem;
+.pageIntro {
+  max-width: 560px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(17px, 1.45vw, 21px);
   line-height: 1.7;
-  white-space: pre-line;
 }
 
-.detailLink {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.2rem;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  border: 1px solid rgba(248, 250, 252, 0.7);
-  font-size: 0.9rem;
-  text-decoration: none;
-  color: #e5e7eb;
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.35),
-    rgba(236, 72, 153, 0.4)
-  );
-  backdrop-filter: blur(10px);
-  transition: transform 0.18s ease, box-shadow 0.18s ease,
-    background 0.18s ease, border-color 0.18s ease;
-}
+/* =========================
+   Shared section heading
+========================= */
 
-.detailLink:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.9);
-  border-color: rgba(248, 250, 252, 0.95);
-  background: linear-gradient(
-    135deg,
-    rgba(59, 130, 246, 0.55),
-    rgba(236, 72, 153, 0.6)
-  );
-}
-
-.imageModalBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+.sectionHeader {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 17px 0;
+  border-top: 1px solid var(--line);
+
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.sectionHeader p,
+.sectionHeader span {
+  margin: 0;
+}
+
+.sectionHeader p {
+  color: var(--text);
+}
+
+/* =========================
+   Featured projects
+========================= */
+
+.featuredList {
+  display: grid;
+  gap: clamp(100px, 13vw, 190px);
+  padding: 60px 0 clamp(120px, 15vw, 210px);
+}
+
+.featuredProject {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.55fr);
+  gap: clamp(42px, 7vw, 110px);
   align-items: center;
-  z-index: 1200;
 }
 
-.imageModalImage {
-  max-width: 90vw;
-  max-height: 90vh;
-  object-fit: contain; /* 전체 그림 다 보이게 */
-  border-radius: 12px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.9);
+.featuredProjectReverse {
+  grid-template-columns: minmax(300px, 0.55fr) minmax(0, 1.45fr);
 }
 
-.detailImageWrapper {
+.featuredProjectReverse .featuredImageLink {
+  order: 2;
+}
+
+.featuredImageLink {
+  display: block;
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.featuredImageWrapper {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--image-background);
+}
+
+.featuredImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.featuredImageLink:hover .featuredImage {
+  transform: scale(1.025);
+}
+
+.featuredInfo {
+  min-width: 0;
+}
+
+.projectNumber {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--line);
+
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.projectCategory {
+  margin: 28px 0 16px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.projectTitle {
+  margin: 0;
+  font-size: clamp(42px, 5vw, 75px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.projectDescription {
+  max-width: 520px;
+  margin: 28px 0 20px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.projectTools {
+  max-width: 520px;
+  margin: 0 0 34px;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+
+.projectLink {
+  display: inline-flex;
+  gap: 12px;
+
+  padding-bottom: 5px;
+  border-bottom: 1px solid currentColor;
+
+  color: var(--text);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.projectLink span {
+  transition: transform 180ms ease;
+}
+
+.projectLink:hover span {
+  transform: translate(3px, -3px);
+}
+
+/* =========================
+   Featured project carousel
+========================= */
+
+.carousel {
+  width: 100%;
+}
+
+.carouselViewport {
   position: relative;
-  margin-bottom: 0.75rem;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--image-background);
 }
 
-.sliderButton {
+.carouselTrack {
+  display: flex;
+  width: 100%;
+  height: 100%;
+
+  transition: transform 550ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.carouselSlide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.carouselImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carouselButton {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: rgba(15, 23, 42, 0.7);
-  color: #e5e7eb;
-  width: 28px;
-  height: 28px;
-  border-radius: 999px;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 52px;
+  height: 52px;
+  padding: 0;
+
+  border: 1px solid rgba(37, 35, 31, 0.18);
+  border-radius: 50%;
+
+  color: #25231f;
+  background: rgba(250, 249, 246, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  font-size: 18px;
+  line-height: 1;
   cursor: pointer;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+
+  transform: translateY(-50%);
+
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
 }
 
-.sliderButtonLeft {
-  left: 8px;
+.carouselButton:hover {
+  color: #faf9f6;
+  background: #25231f;
+  transform: translateY(-50%) scale(1.05);
 }
 
-.sliderButtonRight {
-  right: 8px;
+.carouselButtonLeft {
+  left: 20px;
 }
 
-.sliderDots {
+.carouselButtonRight {
+  right: 20px;
+}
+
+.carouselCount {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  z-index: 2;
+
   display: flex;
   gap: 6px;
-  margin-bottom: 0.75rem;
-}
 
-.sliderDot {
-  width: 7px;
-  height: 7px;
+  padding: 8px 12px;
   border-radius: 999px;
-  border: none;
-  background: rgba(148, 163, 184, 0.5);
+
+  color: #25231f;
+  background: rgba(250, 249, 246, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.carouselCount span {
+  color: #77736d;
+}
+
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.carouselDot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+
+  border: 1px solid #77736d;
+  border-radius: 50%;
+
+  background: transparent;
   cursor: pointer;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
-.sliderDotActive {
-  background: #e5e7eb;
+.carouselDot:hover {
+  transform: scale(1.2);
 }
 
-
-
-
-/* 오른쪽에서 부드럽게 등장 */
-@keyframes slideInRight {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
+.carouselDotActive {
+  background: #25231f;
+  border-color: #25231f;
 }
 
-/* ========= 반응형 ========= */
+/* =========================
+   Visual archive
+========================= */
+
+.archiveGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 75px 24px;
+  padding: 52px 0 clamp(120px, 15vw, 200px);
+}
+
+.archiveCard {
+  min-width: 0;
+  color: inherit;
+  text-decoration: none;
+}
+
+.archiveImageWrapper {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--image-background);
+}
+
+.archiveImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  filter: saturate(0.82);
+
+  transition:
+    transform 400ms ease,
+    filter 300ms ease;
+}
+
+.archiveCard:hover .archiveImage {
+  transform: scale(1.02);
+  filter: saturate(1);
+}
+
+.archiveMeta {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 15px;
+  align-items: start;
+
+  margin-top: 14px;
+  padding-top: 17px;
+  border-top: 1px solid var(--line);
+}
+
+.archiveNumber,
+.archiveArrow {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+
+.archiveContent h2 {
+  margin: 0 0 8px;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.archiveContent p {
+  max-width: 490px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.archiveArrow {
+  font-size: 16px;
+  transition: transform 180ms ease;
+}
+
+.archiveCard:hover .archiveArrow {
+  transform: translate(3px, -3px);
+}
+
+/* =========================
+   Contact
+========================= */
+
+.contactSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+}
+
+.contactSection p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contactSection a {
+  display: inline-flex;
+  gap: 15px;
+
+  color: var(--text);
+  font-size: clamp(38px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.055em;
+  text-decoration: none;
+}
+
+.contactSection a span {
+  transition: transform 180ms ease;
+}
+
+.contactSection a:hover span {
+  transform: translate(4px, -4px);
+}
+
+/* =========================
+   Tablet
+========================= */
 
 @media (max-width: 900px) {
-  .pageContent {
-    padding: 2.5rem 1.5rem;
+  .introGrid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .featuredProject,
+  .featuredProjectReverse {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  .featuredProjectReverse .featuredImageLink {
+    order: initial;
+  }
+
+  .archiveGrid {
+    gap: 55px 20px;
   }
 }
 
-@media (max-width: 768px) {
-  .detailPanel {
-    width: 100%;
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 620px) {
+  .page {
+    padding-inline: 18px;
   }
 
-  .categoryTitle {
-    font-size: 1.1rem;
+  .pageTitle {
+    font-size: clamp(74px, 28vw, 118px);
   }
 
-  .collageImage {
-    width: 150px;
-    height: 150px;
+  .pageIntro {
+    font-size: 16px;
+  }
+
+  .sectionHeader span {
+    display: none;
+  }
+
+  .featuredList {
+    gap: 90px;
+    padding-top: 38px;
+  }
+
+  .projectTitle {
+    font-size: clamp(40px, 15vw, 58px);
+  }
+
+  .archiveGrid {
+    grid-template-columns: 1fr;
+    gap: 55px;
+  }
+
+  .contactSection {
+    display: grid;
+  }
+
+  .contactSection a {
+    font-size: clamp(38px, 14vw, 56px);
+  }
+
+  .carouselButton {
+    width: 42px;
+    height: 42px;
+    font-size: 16px;
+  }
+
+  .carouselButtonLeft {
+    left: 12px;
+  }
+
+  .carouselButtonRight {
+    right: 12px;
+  }
+
+  .carouselCount {
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .carouselDots {
+    margin-top: 12px;
+  }
+}
+
+/* =========================
+   Reduced motion
+========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .featuredImage,
+  .archiveImage,
+  .projectLink span,
+  .archiveArrow,
+  .contactSection a span,
+  .carouselTrack,
+  .carouselButton,
+  .carouselDot {
+    transition: none;
   }
 }
